@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Info</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+</head>
+<body>
+
+<th:block th:include="/_navBar"></th:block>
+
+<div class="container" >
+    <div class="row">
+        <div class="col-lg-12 row">
+            <div class="col-lg-12 text-right" style="margin-bottom: 50px; margin-top: 30px;">
+                <h4 th:utext="${product.name}"></h4>
+            </div>
+            <div class="col-lg-2 text-center" th:if="${product.imgProducts} != null" >
+                <table>
+                    <tbody>
+                        <tr th:each="i : ${product.imgProducts}">
+                            <th>
+                                <img style="height: 80px;"  th:src="'/static/image_products/'+${i.name}">
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-3">
+                <img th:if="${product.imgProducts} != null" th:src="'/static/image_products/'+${product.imgProducts.get(0).name}"
+                style="height: 500px;">
+            </div>
+            <div class="col-lg-6 text-right">
+                <h4 th:utext="${product.price}"></h4>
+                <p th:utext="${product.description}"></p>
+                <div th:if="${#request.userPrincipal} == null">
+                    <h3 class="warning">Что бы сделать заказ необходимо авторизироваться</h3>
+                </div>
+                <div th:if="${#request.userPrincipal} != null">
+                    <form>
+                        <input type="hidden" th:value="${product.id}">
+                        <input style="width: 50px; text-align: right;"
+                               name="quantity" type="number">
+                        <input type="submit" value="Заказать">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

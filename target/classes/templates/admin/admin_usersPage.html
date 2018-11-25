@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+</head>
+<body>
+
+<th:block th:include="/_navBar"></th:block>
+
+<div class="container" >
+    <div class="row">
+        <div class="col-lg-8" >
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Date create</th>
+                </tr>
+                </thead>
+                <tbody th:each="u : ${users}">
+                <tr>
+                    <th scope="row"><a th:href="'/admin/user/' + ${u.id}" th:utext="${u.id}"></a></th>
+                    <td th:utext="${u.username}"></td>
+                    <td th:utext="${u.active}"></td>
+                    <td th:utext="${u.date_create}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

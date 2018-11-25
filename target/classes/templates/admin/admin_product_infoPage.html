@@ -1,0 +1,88 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+</head>
+<body>
+
+<th:block th:include="/_navBar"></th:block>
+
+<div class="container" >
+    <div class="row col-lg-12">
+        <div class="col-lg-8">
+            <ul class="list-group">
+                <li class="list-group-item active row">
+                    <div class="col-lg-4">
+                        <p th:utext="${productInfo.id} + ', ' + ${productInfo.name}"></p>
+                    </div>
+                    <div class="col-lg-2">
+                        <form th:action="@{/admin/delete_product}" method="post">
+                            <input name="id" type="hidden" th:value="${productInfo.id}">
+                            <input type="submit" value="DELETE">
+                        </form>
+                    </div>
+                    <div class="col-lg-2">
+                        <form th:action="@{/admin/update_product}" method="post">
+                            <input type="hidden" th:value="${productInfo.id}">
+                            <input type="submit" value="UPDATE">
+                        </form>
+                    </div>
+                </li>
+                <li th:utext="${productInfo.description}" class="list-group-item"></li>
+                <li th:utext="${productInfo.price}" class="list-group-item"></li>
+                <li th:utext="${productInfo.discount}" class="list-group-item"></li>
+                <li th:utext="${productInfo.quantity}" class="list-group-item"></li>
+                <li class="list-group-item">
+                    <div class="btn-group btn-group-sm" role="group">
+                        <h4>Tags: </h4>
+                    </div>
+                    <div class="btn-group btn-group-sm" role="group" th:each="t : ${productInfo.tags}">
+                        <button th:utext="${t.name}" type="button"  class="btn btn-secondary">1</button>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="btn-group btn-group-sm" role="group">
+                        <h4>Categories: </h4>
+                    </div>
+                    <div class="btn-group btn-group-sm" role="group" th:each="c : ${productInfo.categories}">
+                        <button th:utext="${c.name}" type="button"  class="btn btn-secondary">1</button>
+                    </div>
+                </li>
+            </ul>
+            <div class="row">
+                <div class="col-lg-4" th:if="${product_image}" th:each="i : ${product_image}">
+                    <form th:action="@{/delete_img}" method="post">
+                        <input name="product_id" type="hidden" th:value="${productInfo.id}">
+                        <input name="img_id" type="hidden" th:value="${i.id}">
+                        <input type="submit" class="close" value="x" aria-label="Close">
+                        </input>
+                    </form>
+                    <div class="img-phone">
+                        <img th:src="'/static/image_products/'+${i.name}" alt="..." class="img-thumbnail">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="warning">
+                <h4 th:if="${manyImg}" th:utext="${manyImg}"></h4>
+                <p th:if="${advice}" th:utext="${advice}"></p>
+            </div>
+            <div><p>Add img</p></div>
+            <form th:action="@{/add_image}" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="id" th:value="${productInfo.id}">
+                <input type="file" name="file">
+                <input type="submit" value="ADD">
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+</head>
+<body>
+
+<th:block th:include="/_navBar"></th:block>
+
+<div class="container" >
+    <div class="row">
+        <ul class="list-group">
+            <li class="list-group-item active row">
+                <div class="col-lg-4">
+                    <p th:utext="${user.id} + ', ' + ${user.username}"></p>
+                </div>
+                <div class="col-lg-2">
+                    <form th:action="@{/admin/delete_user}" method="post">
+                        <input name="id" type="hidden" th:value="${user.id}">
+                        <input type="submit" value="DELETE">
+                    </form>
+                </div>
+                <div class="col-lg-2">
+                    <form th:action="@{/admin/update_user}" method="post">
+                        <input type="hidden" th:value="${user.id}">
+                        <input type="submit" value="UPDATE">
+                    </form>
+                </div>
+            </li>
+            <div th:if="${user.userInfo} != null">
+                <li th:if="${user.userInfo.first_name} != null"
+                        th:utext="${user.userInfo.first_name} + ' ' + ${user.userInfo.last_name}" class="list-group-item"></li>
+                <li th:if="${user.userInfo.card}"
+                        th:utext="${user.userInfo.card}" class="list-group-item"></li>
+            </div>
+            <li >
+                <h4><a th:href="@{/}">Orders</a></h4>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
