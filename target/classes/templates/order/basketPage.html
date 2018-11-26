@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+</head>
+<body>
+
+<th:block th:include="/_navBar"></th:block>
+
+<div class="container">
+    <div class="row">
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price on ones</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Full Price</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody th:each="p : ${productsInBasket}">
+            <tr>
+                <td th:utext="${p.product.name}"></td>
+                <td th:utext="${p.product.price}"></td>
+                <td th:utext="${p.quantity}"></td>
+                <td th:with="allPrice=${p.quantity * p.product.price}" th:utext="${allPrice}"></td>
+                <td>
+                    <form th:action="@{/basket/delete_product}" method="post">
+                        <input name="id" type="hidden" th:value="${p.id}">
+                        <button type="submit">X</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

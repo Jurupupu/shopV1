@@ -55,9 +55,9 @@ public class ProductService {
 
     }
 
-    public List<Product> findAllProductsLimit8(){
+    public List<Product> findAllProductsLimit4(){
         log.info("Find 8 last products");
-        return productDAO.findAllProductsLimit8();
+        return productDAO.findAllProductsLimit4();
     }
 
     public boolean deleteProductById(Integer id){

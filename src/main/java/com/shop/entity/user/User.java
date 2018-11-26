@@ -1,8 +1,8 @@
 package com.shop.entity.user;
 
-import com.shop.entity.order.Basket;
+
+import com.shop.entity.order.BasketProduct;
 import com.shop.entity.order.Order;
-import com.shop.entity.order.OrderProduct;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -36,17 +36,17 @@ public class User implements Serializable {
     @Column
     private Date date_create;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToMany
+    List<BasketProduct> basketProduct;
+
+    @OneToOne(targetEntity = UserInfo.class)
+    @PrimaryKeyJoinColumn()
     private UserInfo userInfo;
 
-    @OneToOne
+    @OneToOne(targetEntity = Order.class)
     @PrimaryKeyJoinColumn
     private Order order;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Basket basket;
 
     public User() {
     }
@@ -120,11 +120,4 @@ public class User implements Serializable {
         this.order = order;
     }
 
-    public Basket getBasket() {
-        return basket;
-    }
-
-    public void setBasket(Basket basket) {
-        this.basket = basket;
-    }
 }

@@ -14,7 +14,7 @@ public class MainController {
 
     @GetMapping("/")
     public String mainPage(Model model){
-        model.addAttribute("products", pS.findAllProductsLimit8());
+        model.addAttribute("products", pS.findAllProductsLimit4());
         return "main/mainPage";
     }
 }

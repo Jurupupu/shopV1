@@ -3,6 +3,7 @@ package com.shop.entity.order;
 
 
 import com.shop.entity.product.Product;
+import com.shop.entity.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,8 +16,8 @@ public class BasketProduct implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "basket_id")
-    private Basket basket;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -29,17 +30,18 @@ public class BasketProduct implements Serializable {
         return id;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Basket getBasket() {
-        return basket;
-    }
-
-    public void setBasket(Basket basket) {
-        this.basket = basket;
-    }
 
     public Product getProduct() {
         return product;

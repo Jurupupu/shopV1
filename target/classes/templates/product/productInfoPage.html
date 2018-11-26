@@ -31,7 +31,7 @@
                 </table>
             </div>
             <div class="col-lg-3">
-                <img th:if="${product.imgProducts} != null" th:src="'/static/image_products/'+${product.imgProducts.get(0).name}"
+                <img th:if="${product.imgProducts.isEmpty()} != true" th:src="'/static/image_products/'+${product.imgProducts.get(0).name}"
                 style="height: 500px;">
             </div>
             <div class="col-lg-6 text-right">
@@ -41,8 +41,8 @@
                     <h3 class="warning">Что бы сделать заказ необходимо авторизироваться</h3>
                 </div>
                 <div th:if="${#request.userPrincipal} != null">
-                    <form>
-                        <input type="hidden" th:value="${product.id}">
+                    <form th:action="@{/basket/add_product_in_basket}" method="post">
+                        <input name="id" type="hidden" th:value="${product.id}">
                         <input style="width: 50px; text-align: right;"
                                name="quantity" type="number">
                         <input type="submit" value="Заказать">

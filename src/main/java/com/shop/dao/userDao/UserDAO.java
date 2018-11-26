@@ -1,6 +1,7 @@
 package com.shop.dao.userDao;
 
 import com.shop.entity.user.User;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
+@Transactional
 public class UserDAO {
     private static final String SQL_FIND_USER_BY_NAME =
             "from " + User.class.getName() + " u where u.username = :username";

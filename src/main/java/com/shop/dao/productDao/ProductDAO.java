@@ -36,10 +36,10 @@ public class ProductDAO {
     }
 
     @Transactional(readOnly = true)
-    public List<Product> findAllProductsLimit8(){
+    public List<Product> findAllProductsLimit4(){
         try {
             return em.createQuery(SQL_FIND_ALL_PRODUCTS, Product.class)
-                    .setMaxResults(8)
+                    .setMaxResults(4)
                     .getResultList();
         }catch (Exception e){
             e.printStackTrace();

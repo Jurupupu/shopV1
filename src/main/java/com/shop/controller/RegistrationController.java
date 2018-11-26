@@ -1,5 +1,6 @@
 package com.shop.controller;
 
+
 import com.shop.dao.userDao.UserDAO;
 import com.shop.dao.userDao.UserInfoDAO;
 import com.shop.dao.userDao.UserRoleDAO;
@@ -16,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller("/regist")
 public class RegistrationController {
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Autowired
-    UserRoleDAO userRoleDAO;
+    private UserRoleDAO userRoleDAO;
 
     @Autowired
-    UserInfoDAO userInfoDAO;
+    private UserInfoDAO userInfoDAO;
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -41,6 +42,13 @@ public class RegistrationController {
                                    @RequestParam String lastName,
                                    @RequestParam String card,
                                    @RequestParam String cardPass){
+
+        //UserName not exist
+        if (userDAO.findUserByName(username) != null){
+            model.addAttribute("nameError", "Username is exist!");
+            return registrationPage(model);
+        }
+
         //Password valid
         if (password.equals(password2)){
             if (password.length() > 5){
@@ -48,7 +56,7 @@ public class RegistrationController {
                 User user = new User(username, encoder.encode(password));
                 userDAO.saveUser(user);
                 user = userDAO.findUserByName(username);
-                userRoleDAO.addRoleUser(user, 1L);
+                userRoleDAO.addRoleUser(user, 2L);
                 userInfoDAO.saveUserInfo(userInfo, user);
 
             }else{
