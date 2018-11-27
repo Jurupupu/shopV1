@@ -1,3 +1,3 @@
 # shopV1
-* linguist-vendored
-*.java linguist-vendored=false
+
+Dependencies: Spring Boot, MVC, JPA, Security, Thymeleaf
