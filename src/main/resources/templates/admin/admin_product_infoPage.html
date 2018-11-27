@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-grid.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-reboot.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+
+
 </head>
 <body>
 
@@ -16,7 +18,7 @@
     <div class="row col-lg-12">
         <div class="col-lg-8">
             <ul class="list-group">
-                <li class="list-group-item active row">
+                <li class="list-group-item active row" style="z-index: 1;">
                     <div class="col-lg-4">
                         <p th:utext="${productInfo.id} + ', ' + ${productInfo.name}"></p>
                     </div>
@@ -41,8 +43,27 @@
                     <div class="btn-group btn-group-sm" role="group">
                         <h4>Tags: </h4>
                     </div>
-                    <div class="btn-group btn-group-sm" role="group" th:each="t : ${productInfo.tags}">
-                        <button th:utext="${t.name}" type="button"  class="btn btn-secondary">1</button>
+                    <div class="btn-group btn-group-sm" role="group" th:each="c : ${productInfo.tag}">
+                        <form style="margin-bottom: 0;" method="post"
+                              th:action="@{'/admin/product/'+${productInfo.id}+'/delete_tag'}">
+                            <input name="tag_id" type="hidden" th:value="${c.id}">
+                            <input th:value="${c.name}" type="submit"  class="btn btn-secondary">
+                        </form>
+                    </div>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Add tag
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                            <form th:each="c : ${tags}" style="margin-bottom: 0;" method="post"
+                                  th:action="@{'/admin/product/'+${productInfo.id}+'/add_tag'}">
+                                <input name="tag_id" type="hidden" th:id="${c.name}" th:value="${c.id}">
+                                <input class="dropdown-item" type="submit" th:value="${c.name}">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-sm warning" role="group" th:if="${tagExist}">
+                        <p th:utext="${tagExist}"></p>
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -50,7 +71,26 @@
                         <h4>Categories: </h4>
                     </div>
                     <div class="btn-group btn-group-sm" role="group" th:each="c : ${productInfo.categories}">
-                        <button th:utext="${c.name}" type="button"  class="btn btn-secondary">1</button>
+                        <form style="margin-bottom: 0;" method="post"
+                              th:action="@{'/admin/product/'+${productInfo.id}+'/delete_category'}">
+                            <input name="category_id" type="hidden" th:value="${c.id}">
+                            <input th:value="${c.name}" type="submit"  class="btn btn-secondary">
+                        </form>
+                    </div>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Add category
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <form th:each="c : ${categories}" style="margin-bottom: 0;" method="post"
+                                      th:action="@{'/admin/product/'+${productInfo.id}+'/add_category'}">
+                                    <input name="category_id" type="hidden" th:id="${c.name}" th:value="${c.id}">
+                                    <input class="dropdown-item" type="submit" th:value="${c.name}">
+                                </form>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-sm warning" role="group" th:if="${categoryExist}">
+                        <p th:utext="${categoryExist}"></p>
                     </div>
                 </li>
             </ul>
@@ -82,6 +122,7 @@
             </form>
         </div>
     </div>
+
 </div>
 
 </body>

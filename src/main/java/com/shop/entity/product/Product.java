@@ -107,14 +107,6 @@ public class Product implements Serializable {
         this.category = categories;
     }
 
-    public List<Tag> getTags() {
-        return tag;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tag = tags;
-    }
-
     public List<Category> getCategory() {
         return category;
     }

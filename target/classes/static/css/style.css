@@ -1,12 +1,15 @@
 .container{
     padding-top: 55px;
+    z-index: 1;
+}
+
+.navbar{
+    z-index: 2;
 }
 
 .img-phone{
-    margin: 10px;
-    padding: 0;
     position: relative;
-    /*width:64px;*/
+    width:auto;
     height:330px;
 
     border-radius:3px;
@@ -23,8 +26,4 @@
 
 .warning {
     color: red;
-}
-
-.card-img-top {
-    width: auto;
 }

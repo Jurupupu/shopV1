@@ -7,15 +7,34 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item" th:if="${#request.userPrincipal} != null">
-                    <a class="nav-link" th:href="@{/basket}">Basket</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin}">Admin</a>
-                </li>
+                <div class="col">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+                <div class="row" th:if="${#request.userPrincipal} != null">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/basket}">Basket</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/orders}">Order</a>
+                    </li>
+                    <li class="nav-item dropdown" th:if="${#request.isUserInRole('ROLE_ADMIN')} == true">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" th:href="@{/admin/product}">Products</a>
+                            <a class="dropdown-item" th:href="@{/admin/orders}">Orders</a>
+                            <a class="dropdown-item" th:href="@{/admin/users}">Users</a>
+                        </div>
+                    </li>
+                </div>
+                <div class="row" th:if="${#request.userPrincipal} == null">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Login</a>
+                    </li>
+                </div>
 
             </ul>
             <form class="form-inline my-2 my-lg-0" method="post"
@@ -29,4 +48,7 @@
             </form>
         </div>
     </nav>
+    <script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js}" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js}" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </div>

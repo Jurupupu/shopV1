@@ -19,6 +19,10 @@ public class ProductCategory implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    public ProductCategory() {
+    }
+
+
     public Long getId() {
         return id;
     }

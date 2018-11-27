@@ -1,9 +1,7 @@
 package com.shop.service;
 
-import com.shop.dao.productDao.ImgProductDAO;
-import com.shop.dao.productDao.ProductDAO;
-import com.shop.entity.product.ImgProduct;
-import com.shop.entity.product.Product;
+import com.shop.dao.productDao.*;
+import com.shop.entity.product.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +14,22 @@ public class ProductService {
     private static final Log log = LogFactory.getLog(ProductService.class);
 
     @Autowired
-    ProductDAO productDAO;
+    private ProductDAO productDAO;
 
     @Autowired
-    ImgProductDAO imgProductDAO;
+    private ImgProductDAO imgProductDAO;
+
+    @Autowired
+    private CategoryDAO categoryDAO;
+
+    @Autowired
+    private ProductCategoryDAO productCategoryDAO;
+
+    @Autowired
+    private ProductTagDAO productTagDAO;
+
+    @Autowired
+    private TagDAO tagDAO;
 
 //================================================================================
 //// METHODS PRODUCT_DAO
@@ -71,6 +81,31 @@ public class ProductService {
     }
 
 //================================================================================
+// METHODS CATEGORY_DAO
+//=====================================================
+
+    public List<Category> findAllCategories(){
+        return categoryDAO.findAllCategories();
+    }
+
+
+//================================================================================
+// METHODS PRODUCT_CATEGORY_DAO
+//=====================================================
+
+    public void addProductCategory(int product_id, int category_id){
+        productCategoryDAO.addProductCategory(product_id, category_id);
+    }
+
+    public ProductCategory findProductCategory(Integer product_id, Integer category_id){
+        return productCategoryDAO.findProductCategory(product_id, category_id);
+    }
+
+    public void deleteProductCategory(Integer product_id, Integer category_id){
+        productCategoryDAO.deleteProductCategory(product_id,category_id);
+    }
+
+//================================================================================
 // METHODS IMG_PRODUCT_DAO
 //=====================================================
 
@@ -100,5 +135,28 @@ public class ProductService {
         List<ImgProduct> imgProducts = imgProductDAO.findImgById(product);
         log.info("Find img by id" + product.getId());
         return imgProducts;
+    }
+
+//================================================================================
+// METHODS TAG_DAO
+//=====================================================
+
+    public List<Tag> findAllTags(){
+        return tagDAO.findAllTags();
+    }
+
+//================================================================================
+// METHODS PRODUCT_TAG_DAO
+//=====================================================
+    public void addProductTag(int product_id, int tag_id){
+        productTagDAO.addProductTag(product_id, tag_id);
+    }
+
+    public ProductTag findProductTag(Integer product_id, Integer tag_id){
+        return productTagDAO.findProductTag(product_id, tag_id);
+    }
+
+    public void deleteProductTag(Integer product_id, Integer tag_id){
+        productTagDAO.deleteProductTag(product_id, tag_id);
     }
 }

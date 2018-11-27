@@ -28,7 +28,7 @@
             <a th:href="'product/'+${p.id}">
                 <div class="shadow p-3 mb-5 bg-white rounded">
                     <div class="img-phone">
-                        <img class="card-img-top" style="height: 350px" th:if="${p.imgProducts.size()} != 0" th:src="'/static/image_products/'+${p.imgProducts.get(0).name}" alt="Card image cap">
+                        <img class="card-img-top" style="height: 300px; width: auto;" th:if="${p.imgProducts.size()} != 0" th:src="'/static/image_products/'+${p.imgProducts.get(0).name}" alt="Card image cap">
                     </div>
                     <div class="card-body">
                         <h5 th:utext="${p.name}" class="card-title">Card title</h5>

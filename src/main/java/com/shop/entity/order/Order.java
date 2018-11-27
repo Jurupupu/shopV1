@@ -15,6 +15,9 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private Float price;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date date_create;
@@ -32,6 +35,14 @@ public class Order implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
     public Date getDate_create() {

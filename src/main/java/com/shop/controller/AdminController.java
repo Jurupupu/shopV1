@@ -1,9 +1,9 @@
 package com.shop.controller;
 
-import com.shop.dao.productDao.ImgProductDAO;
-import com.shop.dao.productDao.ProductDAO;
-import com.shop.entity.product.ImgProduct;
+import com.shop.dao.order.OrderDAO;
 import com.shop.entity.product.Product;
+import com.shop.entity.product.ProductCategory;
+import com.shop.entity.product.ProductTag;
 import com.shop.service.ProductService;
 import com.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.jws.WebResult;
-import javax.websocket.server.PathParam;
+
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.UUID;
 
 @Controller("/admin")
@@ -30,6 +31,9 @@ public class AdminController {
     @Autowired
     UserService uS;
 
+    @Autowired
+    OrderDAO orderDAO;
+
     @Value("${upload.path}")
     private String path;
 
@@ -39,6 +43,10 @@ public class AdminController {
         return "admin/adminPage";
     }
 
+
+//=====================================================================================
+//PRODUCTS
+//==================================================================
     @GetMapping("/admin/product")
     public String adminProductsPage(Model model){
         model.addAttribute("products", pS.findAllProducts());
@@ -51,6 +59,8 @@ public class AdminController {
         Product product = pS.findProductById(id);
         model.addAttribute("productInfo", product);
         model.addAttribute("product_image", pS.findImgById(product));
+        model.addAttribute("tags", pS.findAllTags());
+        model.addAttribute("categories", pS.findAllCategories());
         return "admin/admin_product_infoPage";
     }
 
@@ -122,6 +132,55 @@ public class AdminController {
         return adminProductsPage(model);
     }
 
+    @PostMapping("/admin/product/{id}/add_category")
+    public String productAddCategory(Model model,
+                                     @PathVariable Integer id,
+                                     @RequestParam Integer category_id){
+        if (pS.findProductCategory(id, category_id) != null){
+            model.addAttribute("categoryExist", "Вы уже добавили эту категорию");
+            return adminProductPage(model, id);
+        }
+        pS.addProductCategory(id, category_id);
+        return adminProductPage(model, id);
+    }
+    @PostMapping("/admin/product/{id}/delete_tag")
+    public String productDeleteTag(Model model,
+                                     @PathVariable Integer id,
+                                     @RequestParam Integer tag_id){
+        ProductTag pt = pS.findProductTag(id, tag_id);
+        if (pt == null){
+            model.addAttribute("tagExist", "Что то пошло не так");
+            return adminProductPage(model, id);
+        }
+        pS.deleteProductTag(id, tag_id);
+        return adminProductPage(model, id);
+    }
+
+    @PostMapping("/admin/product/{id}/add_tag")
+    public String productAddTag(Model model,
+                                     @PathVariable Integer id,
+                                     @RequestParam Integer tag_id){
+        if (pS.findProductTag(id, tag_id) != null){
+            model.addAttribute("tagExist", "Вы уже добавили этот тэг");
+            return adminProductPage(model, id);
+        }
+        pS.addProductTag(id, tag_id);
+        return adminProductPage(model, id);
+    }
+
+    @PostMapping("/admin/product/{id}/delete_category")
+    public String productDeleteCategory(Model model,
+                                        @PathVariable Integer id,
+                                        @RequestParam Integer category_id){
+        ProductCategory pc = pS.findProductCategory(id, category_id);
+        if (pc == null){
+            model.addAttribute("categoryExist", "Что то пошло не так");
+            return adminProductPage(model, id);
+        }
+        pS.deleteProductCategory(id, category_id);
+        return adminProductPage(model, id);
+    }
+
 //=====================================================================================
 //USERS
 //==================================================================
@@ -138,4 +197,17 @@ public class AdminController {
         model.addAttribute(uS.findUserById(id));
         return "admin/admin_user_infoPage";
     }
+
+//=====================================================================================
+//ORDERS
+//==================================================================
+    @GetMapping("/admin/orders")
+    public String adminOrdersPage(Model model, Principal principal){
+        model.addAttribute("orders", orderDAO.findAllOrders());
+        return "admin/admin_ordersPage";
+    }
 }
+
+
+
+

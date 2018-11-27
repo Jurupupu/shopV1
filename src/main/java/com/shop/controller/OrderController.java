@@ -1,6 +1,7 @@
 package com.shop.controller;
 
 import com.shop.dao.order.BasketProductDAO;
+import com.shop.dao.order.OrderDAO;
 import com.shop.dao.userDao.UserDAO;
 import com.shop.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class OrderController {
     private UserDAO userDAO;
 
     @Autowired
+    private OrderDAO orderDAO;
+
+    @Autowired
     private BasketProductDAO basketProductDAO;
 
     @GetMapping("/basket")
@@ -25,6 +29,12 @@ public class OrderController {
         model.addAttribute("productsInBasket",
                 basketProductDAO.findAllProductsInBusketByUserId(userDAO.findUserByName(principal.getName()).getId()));
         return "order/basketPage";
+    }
+
+    @GetMapping("/orders")
+    public String ordersPage(Model model , Principal principal){
+        model.addAttribute("orders", orderDAO.findOrdersByUserId(userDAO.findUserByName(principal.getName()).getId()));
+        return "order/ordersPage";
     }
 
     @PostMapping("/basket/add_product_in_basket")
@@ -43,5 +53,11 @@ public class OrderController {
                                         @RequestParam Long id){
         basketProductDAO.deleteById(id);
         return basketPage(model, principal);
+    }
+
+    @PostMapping("/basket/create_order")
+    public String createOrder(Model model, Principal principal){
+        orderDAO.createOrder(userDAO.findUserByName(principal.getName()).getId());
+        return ordersPage(model, principal);
     }
 }
